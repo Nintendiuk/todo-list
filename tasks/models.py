@@ -28,4 +28,3 @@ class Task(models.Model):
     def __str__(self):
         status = "✓" if self.is_done else "○"
         return f"[{status}] {self.content[:50]}"
-

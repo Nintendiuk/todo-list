@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 
-from .models import Tag, Task
+from tasks.models import Task
 
 
 class TaskSortingTest(TestCase):

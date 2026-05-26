@@ -10,3 +10,4 @@ exclude =
     dist
 per-file-ignores =
     */settings/*.py: E501
+ignore = F403, F401
