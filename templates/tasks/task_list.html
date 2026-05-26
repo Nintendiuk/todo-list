@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">My <span>Tasks</span></h2>
+  <a href="{% url 'tasks:task-create' %}" class="btn btn-primary">+ Add Task</a>
+</div>
+
+{% if task_list %}
+  <ul class="task-list">
+    {% for task in task_list %}
+      <li class="task-item {% if task.is_done %}is-done{% endif %}">
+
+        <div class="task-body">
+          <p class="task-content">{{ task.content }}</p>
+          <div class="task-meta">
+            <span class="task-date">Created: {{ task.created_at|date:"d M Y, H:i" }}</span>
+
+            {% if task.deadline %}
+              <span class="task-deadline {% if not task.is_done and task.deadline < now %}overdue{% endif %}">
+                Deadline: {{ task.deadline|date:"d M Y, H:i" }}
+              </span>
+            {% endif %}
+
+            {% if task.is_done %}
+              <span class="status-badge done">Done</span>
+            {% else %}
+              <span class="status-badge pending">Pending</span>
+            {% endif %}
+
+            {% for tag in task.tags.all %}
+              <span class="tag-badge">{{ tag.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="task-actions">
+          <form method="post" action="{% url 'tasks:task-toggle' task.pk %}">
+            {% csrf_token %}
+            {% if task.is_done %}
+              <button type="submit" class="btn btn-outline btn-sm">Undo</button>
+            {% else %}
+              <button type="submit" class="btn btn-primary btn-sm">Complete</button>
+            {% endif %}
+          </form>
+          <a href="{% url 'tasks:task-update' task.pk %}" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="{% url 'tasks:task-delete' task.pk %}" class="btn btn-ghost btn-sm">Delete</a>
+        </div>
+
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty-state">
+    <p style="font-size:2rem">○</p>
+    <p>No tasks yet. <a href="{% url 'tasks:task-create' %}">Add your first task →</a></p>
+  </div>
+{% endif %}
+{% endblock %}

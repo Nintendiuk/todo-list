@@ -70,3 +70,44 @@ class TaskToggleDoneView(View):
         task.is_done = not task.is_done
         task.save(update_fields=["is_done"])
         return redirect("tasks:task-list")
+
+
+class TagListView(ListView):
+    model = Tag
+    template_name = "tasks/tag_list.html"
+    context_object_name = "tag_list"
+
+    def get_queryset(self):
+        return Tag.objects.all()
+
+
+class TagCreateView(CreateView):
+    model = Tag
+    form_class = TagForm
+    template_name = "tasks/tag_form.html"
+    success_url = reverse_lazy("tasks:tag-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = "Create Tag"
+        context["submit_label"] = "Create"
+        return context
+
+
+class TagUpdateView(UpdateView):
+    model = Tag
+    form_class = TagForm
+    template_name = "tasks/tag_form.html"
+    success_url = reverse_lazy("tasks:tag-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = "Edit Tag"
+        context["submit_label"] = "Save Changes"
+        return context
+
+
+class TagDeleteView(DeleteView):
+    model = Tag
+    template_name = "tasks/tag_confirm_delete.html"
+    success_url = reverse_lazy("tasks:tag-list")
