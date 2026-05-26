@@ -1,11 +1,28 @@
 import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+
+load_dotenv(dotenv_path=BASE_DIR / '.env')
+
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
+
+
+
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-change-me-in-production-use-env-variable",
+    "3Jhdl123jkdjd82Jlo",
 )
 
 INSTALLED_APPS = [
