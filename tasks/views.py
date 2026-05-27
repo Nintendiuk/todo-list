@@ -4,8 +4,8 @@ from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from .forms import TagForm, TaskForm
-from .models import Tag, Task
+from tasks.forms import TagForm, TaskForm
+from tasks.models import Tag, Task
 
 
 class TaskListView(ListView):
