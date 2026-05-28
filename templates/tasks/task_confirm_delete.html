@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Delete Task{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">Delete <span>Task</span></h2>
+</div>
+
+<div class="confirm-card">
+  <h2>Are you sure?</h2>
+  <p>
+    You are about to permanently delete:<br>
+    <span class="object-name">{{ object.content|truncatechars:80 }}</span>
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="{% url 'tasks:task-list' %}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

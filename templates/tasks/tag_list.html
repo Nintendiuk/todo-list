@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">My <span>Tags</span></h2>
+  <a href="{% url 'tasks:tag-create' %}" class="btn btn-primary">+ Add Tag</a>
+</div>
+
+{% if tag_list %}
+  <table class="tag-table">
+    <thead>
+      <tr>
+        <th>Tag Name</th>
+        <th>Tasks</th>
+        <th style="text-align:right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tag in tag_list %}
+        <tr>
+          <td><span class="tag-badge">{{ tag.name }}</span></td>
+          <td style="color:var(--text-muted); font-size:0.8rem">
+            {{ tag.tasks.count }} task{{ tag.tasks.count|pluralize }}
+          </td>
+          <td style="text-align:right">
+            <a href="{% url 'tasks:tag-update' tag.pk %}" class="btn btn-ghost btn-sm">Edit</a>
+            <a href="{% url 'tasks:tag-delete' tag.pk %}" class="btn btn-ghost btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="empty-state">
+    <p style="font-size:2rem">🏷</p>
+    <p>No tags yet. <a href="{% url 'tasks:tag-create' %}">Create your first tag →</a></p>
+  </div>
+{% endif %}
+{% endblock %}

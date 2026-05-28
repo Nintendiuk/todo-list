@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Delete Tag{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">Delete <span>Tag</span></h2>
+</div>
+
+<div class="confirm-card">
+  <h2>Are you sure?</h2>
+  <p>
+    You are about to permanently delete the tag:
+    <span class="object-name">"{{ object.name }}"</span>
+  </p>
+  <p>This will remove the tag from all associated tasks.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="{% url 'tasks:tag-list' %}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

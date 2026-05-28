@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Todo List{% endblock %} — Dark Luxury</title>
+  <link rel="stylesheet" href="{% static 'tasks/style.css' %}" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>Todo<br>List</h1>
+      <p>Task Manager</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{% url 'tasks:task-list' %}"
+         class="nav-link {% if request.resolver_match.url_name == 'task-list' %}active{% endif %}">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="12" height="12" rx="2"/>
+          <path d="M5 8l2 2 4-4"/>
+        </svg>
+        Home
+      </a>
+
+      <a href="{% url 'tasks:tag-list' %}"
+         class="nav-link {% if request.resolver_match.url_name == 'tag-list' %}active{% endif %}">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 4h8l4 4-4 4H2V4z"/>
+        </svg>
+        Tag List
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      Django Todo List &copy; {% now "Y" %}
+    </div>
+  </aside>
+
+  <main class="main-content">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="message {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>
